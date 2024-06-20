@@ -11,12 +11,11 @@ import lombok.NoArgsConstructor;
 public class GetBalanceResultDto {
     public Context context;
     public long value;
-}
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class Context {
-    public String apiVersion;
-    public long slot;
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class Context {
+        public String apiVersion;
+        public long slot;
+    }
 }
