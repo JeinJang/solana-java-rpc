@@ -53,10 +53,9 @@ class SolanaRpcTutorialApplicationTests {
 
 	@Test
 	void getBlockTest() {
-		long blockHeight = solanaRequestService.getBlockHeight(
-				new RequestParamsDto(null, null)
-		);
-		SolanaBlockDto block = solanaRequestService.getBlock(blockHeight, new GetBlockRequestParamsDto(null, "json", "full", (long) 0, false));
+		long slot = solanaRequestService.getSlot(null);
+		SolanaBlockDto block = solanaRequestService.getBlock(slot, new GetBlockRequestParamsDto(null, "json", "full", (long) 0, false));
+		System.out.println("slot number: " + slot);
 		System.out.println("block: " + block);
 	}
 }

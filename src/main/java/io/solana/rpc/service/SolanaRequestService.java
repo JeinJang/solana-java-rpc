@@ -85,6 +85,21 @@ public class SolanaRequestService {
         assert response != null;
         return response.result;
     }
+
+    public Long getSlot(@Nullable RequestParamsDto params) {
+        GetSlotResponseDto response = restTemplate.exchange(
+                rpcUrl, HttpMethod.POST,
+                new HttpEntity<>(
+                        new SolanaRequestBodyDto<>(
+                                "getSlot",
+                                params != null ? new RequestParamsDto[] { params } : null
+                        ), headers
+                ), GetSlotResponseDto.class
+        ).getBody();
+
+        assert response != null;
+        return response.result;
+    }
 }
 
 class GetBlocksResponseDto extends SolanaRPCResponseDto<long[]> {
@@ -119,11 +134,21 @@ class GetBlockHeightResponseDto extends SolanaRPCResponseDto<Long> {
 }
 
 class GetBlockResponseDto extends SolanaRPCResponseDto<SolanaBlockDto> {
-public GetBlockResponseDto(
-        @JsonProperty("jsonrpc") String jsonrpc,
-        @JsonProperty("id") long id,
-        @JsonProperty("result") SolanaBlockDto result
-) {
-    super(jsonrpc, id, result);
+    public GetBlockResponseDto(
+            @JsonProperty("jsonrpc") String jsonrpc,
+            @JsonProperty("id") long id,
+            @JsonProperty("result") SolanaBlockDto result
+    ) {
+        super(jsonrpc, id, result);
+    }
 }
+
+class GetSlotResponseDto extends SolanaRPCResponseDto<Long> {
+    public GetSlotResponseDto(
+            @JsonProperty("jsonrpc") String jsonrpc,
+            @JsonProperty("id") long id,
+            @JsonProperty("result") Long result
+    ) {
+        super(jsonrpc, id, result);
+    }
 }
