@@ -5,8 +5,10 @@ import io.solana.rpc.dto.GetBalanceResultDto;
 import io.solana.rpc.dto.SolanaBlockDto;
 import io.solana.rpc.dto.SolanaRPCResponseDto;
 import io.solana.rpc.dto.request.GetBlockRequestParamsDto;
+import io.solana.rpc.dto.request.GetTransactionRequestParamsDto;
 import io.solana.rpc.dto.request.RequestParamsDto;
 import io.solana.rpc.dto.request.SolanaRequestBodyDto;
+import io.solana.rpc.dto.result.GetTransactionResult;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -100,6 +102,21 @@ public class SolanaRequestService {
         assert response != null;
         return response.result;
     }
+
+    public GetTransactionResult getTransaction(String signature, @Nullable GetTransactionRequestParamsDto params) {
+        GetTransactionResponseDto response = restTemplate.exchange(
+                rpcUrl, HttpMethod.POST,
+                new HttpEntity<>(
+                        new SolanaRequestBodyDto<>(
+                                "getTransaction",
+                                params != null ? new Object[] { signature, params } : new String[] { signature }
+                        ), headers
+                ), GetTransactionResponseDto.class
+        ).getBody();
+
+        assert response != null;
+        return response.result;
+    }
 }
 
 class GetBlocksResponseDto extends SolanaRPCResponseDto<long[]> {
@@ -148,6 +165,16 @@ class GetSlotResponseDto extends SolanaRPCResponseDto<Long> {
             @JsonProperty("jsonrpc") String jsonrpc,
             @JsonProperty("id") long id,
             @JsonProperty("result") Long result
+    ) {
+        super(jsonrpc, id, result);
+    }
+}
+
+class GetTransactionResponseDto extends SolanaRPCResponseDto<GetTransactionResult> {
+    public GetTransactionResponseDto(
+            @JsonProperty("jsonrpc") String jsonrpc,
+            @JsonProperty("id") long id,
+            @JsonProperty("result") GetTransactionResult result
     ) {
         super(jsonrpc, id, result);
     }

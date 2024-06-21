@@ -3,6 +3,7 @@ package io.solana.rpc;
 import io.solana.rpc.dto.SolanaBlockDto;
 import io.solana.rpc.dto.request.GetBlockRequestParamsDto;
 import io.solana.rpc.dto.request.RequestParamsDto;
+import io.solana.rpc.dto.result.GetTransactionResult;
 import io.solana.rpc.service.SolanaRequestService;
 import io.solana.rpc.dto.GetBalanceResultDto;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,14 @@ class SolanaRpcTutorialApplicationTests {
 		SolanaBlockDto block = solanaRequestService.getBlock(slot, new GetBlockRequestParamsDto(null, "json", "full", (long) 0, false));
 		System.out.println("slot number: " + slot);
 		System.out.println("block: " + block);
+	}
+
+	@Test
+	void getTransactionsTest() {
+		GetTransactionResult transaction = solanaRequestService.getTransaction(
+				"2VwVr1usBay22bNDb32ZDb1ZYcfHowSu5hRVMx2TEFXFtMdqDkL4z2H7Cj86RZ6kFFdKsUH3b7WkH2WPtxqW3fL8",
+				null
+		);
+		System.out.println("transaction: " + transaction);
 	}
 }

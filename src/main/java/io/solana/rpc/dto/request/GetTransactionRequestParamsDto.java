@@ -6,15 +6,11 @@ import org.springframework.lang.Nullable;
 
 @Getter
 @AllArgsConstructor
-public class GetBlockRequestParamsDto {
+public class GetTransactionRequestParamsDto {
     @Nullable
     public String commitment;
     @Nullable
+    public long maxSupportedTransactionVersion;
+    @Nullable
     public String encoding;
-    @Nullable
-    public String transactionDetails;
-    @Nullable
-    public Long maxSupportedTransactionVersion;
-    @Nullable
-    public Boolean rewards;
 }
